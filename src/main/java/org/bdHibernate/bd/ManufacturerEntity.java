@@ -68,7 +68,7 @@ public class ManufacturerEntity {
         }
         return new ArrayList<ManufacturerEntity>();
     }
-    public static void delete(int id) {
+    public static void delete(int id) throws Exception {
         try (Session session = HibernateUtil.getSession()) {
             session.beginTransaction();
             List<ManufacturerEntity> manufacturerEntities = session.createQuery("From ManufacturerEntity ").list();
@@ -81,7 +81,7 @@ public class ManufacturerEntity {
             }
             session.getTransaction().commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw e;
         }
     }
     public static void add(String name, String address) {
