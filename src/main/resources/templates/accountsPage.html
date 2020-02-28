@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bank</title>
+
+    <style>
+        th, td {
+            padding: 5px;
+        }
+    </style>
+
+</head>
+
+<body>
+ <!--Include _menu.html-->
+<th:block th:include="/_menu"></th:block>
+
+<h2>Accounts</h2>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name_</th>
+        <th>Address</th>
+    </tr>
+    <tr th:each="accountInfo : ${accountInfos}">
+        <td th:utext="${accountInfo.idManufacturer}">..</td>
+        <td th:utext="${accountInfo.name}">..</td>
+        <td th:utext="${accountInfo.address}">..</td>
+    </tr>
+
+</table>
+
+ <table border="1">
+     <tr>
+         <th>ID</th>
+         <th>Name_</th>
+         <th>cost</th>
+         <th>название мануфактуры</th>
+         <!--<th>Вещь</th>-->
+     </tr>
+     <tr th:each="accountInfo : ${accountInfos1}">
+         <td th:utext="${accountInfo.idMaterial}">..</td>
+         <td th:utext="${accountInfo.name}">..</td>
+         <td th:utext="${accountInfo.cost}">..</td>
+         <td th:utext="${accountInfo.manufacturerByIdManufacturer.getName()}">..</td>
+         <!--<td th:utext="${accountInfo.tools.size()}">..</td>-->
+     </tr>
+
+ </table>
+
+</body>
+</html>
