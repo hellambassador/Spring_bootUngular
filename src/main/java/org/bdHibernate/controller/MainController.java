@@ -26,8 +26,6 @@ public class MainController {
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/api/manufactures", method = RequestMethod.GET)
     public List<ManufacturerEntity>  showBankAccounts() {
-
-
         List<ManufacturerEntity> list =ManufacturerEntity.show();
         //List<BankAccountInfo> list = bankAccountDAO.listBankAccountInfo();
 
@@ -36,6 +34,29 @@ public class MainController {
 //        model.addAttribute("accountInfos1", list1);
         return list;
     }
+
+    @CrossOrigin(origins = "*")
+    @ResponseBody
+    @RequestMapping(value = "/api/manufacture/{id}", method = RequestMethod.DELETE)
+    public void processDelManuf(@PathVariable String id) throws Exception {
+
+        ManufacturerEntity.delete(Integer.parseInt(id));
+    }
+
+    @CrossOrigin(origins = "*")
+    @ResponseBody
+    @RequestMapping(value = "/api/manufacture/{id}", method = RequestMethod.PUT)
+    public void processUpdateManuf(@PathVariable String id,@RequestBody  ManufacturerEntity manuf) throws Exception {
+        ManufacturerEntity.update(manuf.getIdManufacturer(),manuf.getName(),manuf.getAddress());
+    }
+
+    @CrossOrigin(origins = "*")
+    @ResponseBody
+    @RequestMapping(value = "/api/manufacture", method = RequestMethod.PUT)
+    public void processAddManuf(@RequestBody  ManufacturerEntity manuf) throws Exception {
+        ManufacturerEntity.add(manuf.getName(),manuf.getAddress());
+    }
+
 
     @RequestMapping(value = "/sendMoney", method = RequestMethod.GET)
     public String viewSendMoneyPage(Model model) {
@@ -78,14 +99,6 @@ public class MainController {
         System.out.println("Manuf update::");
         ManufacturerEntity.update(sendManufForm.getidManufacturer(),sendManufForm.getname(),sendManufForm.getaddress());
         return "redirect:/";
-    }
-
-    @CrossOrigin(origins = "*")
-    @ResponseBody
-    @RequestMapping(value = "/api/manufacture/{id}", method = RequestMethod.DELETE)
-    public void processdelManuf(@PathVariable String id) throws Exception {
-
-        ManufacturerEntity.delete(Integer.parseInt(id));
     }
 
 }
