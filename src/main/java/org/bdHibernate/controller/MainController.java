@@ -35,6 +35,13 @@ public class MainController {
         return list;
     }
 
+    @ResponseBody
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/api/materials", method = RequestMethod.GET)
+    public List<MaterialEntity>  showMaterial() {
+        List<MaterialEntity> list =MaterialEntity.show();
+        return list;
+    }
     @CrossOrigin(origins = "*")
     @ResponseBody
     @RequestMapping(value = "/api/manufacture/{id}", method = RequestMethod.DELETE)

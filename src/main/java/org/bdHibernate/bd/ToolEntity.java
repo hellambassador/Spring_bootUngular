@@ -1,5 +1,10 @@
 package org.bdHibernate.bd;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +16,11 @@ public class ToolEntity {
     private String name;
     private Integer timeToCreate;
 
+    @JsonIgnoreProperties
     private Set<MaterialEntity> materials = new HashSet<>();
+
+    //    @Fetch(FetchMode.JOIN)
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "material_tool",
             //foreign key for CarsEntity in employee_car table
@@ -19,7 +28,7 @@ public class ToolEntity {
             //foreign key for other side - EmployeeEntity in employee_car table
             inverseJoinColumns = @JoinColumn(name = "material_id"))
 
-    public Set<MaterialEntity> getMaterial () {
+    public Set<MaterialEntity> getMaterial() {
         return materials;
     }
 
