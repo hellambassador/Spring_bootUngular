@@ -14,6 +14,7 @@ public class ManufacturerEntity {
     private String address;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_manufacturer", nullable = false)
     public int getIdManufacturer() {
         return idManufacturer;
@@ -84,16 +85,17 @@ public class ManufacturerEntity {
             throw e;
         }
     }
-    public static void add(String name, String address) {
+    public static ManufacturerEntity add(String name, String address) throws Exception {
         try (Session session = HibernateUtil.getSession()) {
             session.beginTransaction();
             ManufacturerEntity manufacturerEntity = new ManufacturerEntity();
             manufacturerEntity.setName(name);
             manufacturerEntity.setAddress(address);
-            session.save(manufacturerEntity);
+            manufacturerEntity.setIdManufacturer((Integer) session.save(manufacturerEntity));
             session.getTransaction().commit();
+            return manufacturerEntity;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw e;
         }
     }
     public static void update(int id,String name,String address) {

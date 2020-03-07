@@ -59,53 +59,9 @@ public class MainController {
 
     @CrossOrigin(origins = "*")
     @ResponseBody
-    @RequestMapping(value = "/api/manufacture", method = RequestMethod.PUT)
-    public void processAddManuf(@RequestBody  ManufacturerEntity manuf) throws Exception {
-        ManufacturerEntity.add(manuf.getName(),manuf.getAddress());
-    }
-
-
-    @RequestMapping(value = "/sendMoney", method = RequestMethod.GET)
-    public String viewSendMoneyPage(Model model) {
-
-        SendMoneyForm form = new SendMoneyForm(2L, 1L, 600d);
-        SendManufForm form1 = new SendManufForm(1, "kirilicha", "dom");
-
-        model.addAttribute("sendMoneyForm", form);
-        model.addAttribute("SendManufForm", form1);
-
-        return "sendMoneyPage";
-    }
-
-    @RequestMapping(value = "/sendMoney", method = RequestMethod.POST)
-    public String processSendMoney(Model model, SendMoneyForm sendMoneyForm) {
-
-        System.out.println("Send Money::" + sendMoneyForm.getAmount());
-
-        try {
-            bankAccountDAO.sendMoney(sendMoneyForm.getFromAccountId(), //
-                    sendMoneyForm.getToAccountId(), //
-                    sendMoneyForm.getAmount());
-        } catch (BankTransactionException e) {
-            model.addAttribute("errorMessage", "Error: " + e.getMessage());
-            return "/sendMoneyPage";
-        }
-        return "redirect:/";
-    }
-    @RequestMapping(value = "/addManuf", method = RequestMethod.POST)
-    public String processaddManuf(Model model, SendManufForm sendManufForm) {
-
-        System.out.println("Manuf Add::");
-        ManufacturerEntity.add(sendManufForm.getname(),sendManufForm.getaddress());
-        return "redirect:/";
-    }
-
-    @RequestMapping(value = "/updateManuf", method = RequestMethod.POST)
-    public String processupdateManuf(Model model, SendManufForm sendManufForm) {
-
-        System.out.println("Manuf update::");
-        ManufacturerEntity.update(sendManufForm.getidManufacturer(),sendManufForm.getname(),sendManufForm.getaddress());
-        return "redirect:/";
+    @RequestMapping(value = "/api/manufacture", method = RequestMethod.POST)
+    public ManufacturerEntity processAddManuf(@RequestBody  ManufacturerEntity manuf) throws Exception {
+        return ManufacturerEntity.add(manuf.getName(),manuf.getAddress());
     }
 
 }
