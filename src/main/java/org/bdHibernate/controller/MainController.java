@@ -35,19 +35,24 @@ public class MainController {
         return list;
     }
 
-    @ResponseBody
-    @CrossOrigin(origins = "*")
-    @RequestMapping(value = "/api/materials", method = RequestMethod.GET)
-    public List<MaterialEntity>  showMaterial() {
-        List<MaterialEntity> list =MaterialEntity.show();
-        return list;
-    }
+//    @ResponseBody
+//    @CrossOrigin(origins = "*")
+//    @RequestMapping(value = "/api/materials", method = RequestMethod.GET)
+//    public List<MaterialEntity>  showMaterial() {
+//        List<MaterialEntity> list =MaterialEntity.show();
+//        return list;
+//    }
     @CrossOrigin(origins = "*")
     @ResponseBody
     @RequestMapping(value = "/api/manufacture/{id}", method = RequestMethod.DELETE)
     public void processDelManuf(@PathVariable String id) throws Exception {
-
         ManufacturerEntity.delete(Integer.parseInt(id));
+    }
+    @CrossOrigin(origins = "*")
+    @ResponseBody
+    @RequestMapping(value = "/api/manufacture/name", method = RequestMethod.POST)
+    public ManufacturerEntity manufByName(@RequestBody  String name) throws Exception {
+        return ManufacturerEntity.byName(name);
     }
 
     @CrossOrigin(origins = "*")

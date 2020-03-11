@@ -2,11 +2,13 @@ package org.bdHibernate.bd;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.Session;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -90,5 +92,16 @@ public class ToolEntity {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (timeToCreate != null ? timeToCreate.hashCode() : 0);
         return result;
+    }
+
+    public static List<ToolEntity> show() throws Exception {
+        try (Session session = HibernateUtil.getSession()) {
+            session.beginTransaction();
+            List<ToolEntity> manufacturerEntities = session.createQuery("from ToolEntity").list();
+            session.getTransaction().commit();
+            return manufacturerEntities;
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }

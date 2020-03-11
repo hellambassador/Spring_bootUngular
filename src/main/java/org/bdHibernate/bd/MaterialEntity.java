@@ -42,6 +42,7 @@ public class MaterialEntity {
         tools.clear();
     }
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_Material", nullable = false)
     public int getIdMaterial() {
         return idMaterial;
@@ -89,15 +90,16 @@ public class MaterialEntity {
         return new ArrayList<MaterialEntity>();
     }
 
-    public void add() {
+    public MaterialEntity add() {
         try (Session session = HibernateUtil.getSession()) {
             session.beginTransaction();
             session.save(this);
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-
+            return null;
         }
+        return this;
     }
     public void update() {
         try (Session session = HibernateUtil.getSession()) {

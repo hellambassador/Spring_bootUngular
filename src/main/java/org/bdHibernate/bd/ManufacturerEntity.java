@@ -61,7 +61,7 @@ public class ManufacturerEntity {
     public static List<ManufacturerEntity> show() {
         try (Session session = HibernateUtil.getSession()) {
             session.beginTransaction();
-            List<ManufacturerEntity> manufacturerEntities = session.createQuery( "from ManufacturerEntity").list();
+            List<ManufacturerEntity> manufacturerEntities = session.createQuery("from ManufacturerEntity").list();
             session.getTransaction().commit();
             return manufacturerEntities;
         } catch (Exception e) {
@@ -69,14 +69,14 @@ public class ManufacturerEntity {
         }
         return new ArrayList<ManufacturerEntity>();
     }
+
     public static void delete(int id) throws Exception {
         try (Session session = HibernateUtil.getSession()) {
             session.beginTransaction();
             List<ManufacturerEntity> manufacturerEntities = session.createQuery("From ManufacturerEntity ").list();
 
             for (ManufacturerEntity manuf : manufacturerEntities) {
-                if (id ==manuf.getIdManufacturer())
-                {
+                if (id == manuf.getIdManufacturer()) {
                     session.delete(manuf);
                 }
             }
@@ -85,6 +85,7 @@ public class ManufacturerEntity {
             throw e;
         }
     }
+
     public static ManufacturerEntity add(String name, String address) throws Exception {
         try (Session session = HibernateUtil.getSession()) {
             session.beginTransaction();
@@ -98,13 +99,13 @@ public class ManufacturerEntity {
             throw e;
         }
     }
-    public static void update(int id,String name,String address) {
+
+    public static void update(int id, String name, String address) {
         try (Session session = HibernateUtil.getSession()) {
             session.beginTransaction();
             List<ManufacturerEntity> manufacturerEntities = session.createQuery("From ManufacturerEntity ").list();
             for (ManufacturerEntity manuf : manufacturerEntities) {
-                if (id ==manuf.getIdManufacturer())
-                {
+                if (id == manuf.getIdManufacturer()) {
                     manuf.setName(name);
                     manuf.setAddress(address);
                     session.update(manuf);
@@ -115,6 +116,7 @@ public class ManufacturerEntity {
             e.printStackTrace();
         }
     }
+
     @Override
     public int hashCode() {
         int result = idManufacturer;
@@ -122,4 +124,21 @@ public class ManufacturerEntity {
         result = 31 * result + (address != null ? address.hashCode() : 0);
         return result;
     }
+
+    public static ManufacturerEntity byName(String name) {
+        try (Session session = HibernateUtil.getSession()) {
+            session.beginTransaction();
+            List<ManufacturerEntity> manufacturerEntities = session.createQuery("From ManufacturerEntity ").list();
+            for (ManufacturerEntity manuf : manufacturerEntities) {
+                if (manuf.getName().equals(name)) {
+                    return manuf;
+                }
+            }
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
