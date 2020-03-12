@@ -2,6 +2,7 @@ package org.bdHibernate.controller;
 
         import java.util.List;
 
+        import org.bdHibernate.bd.Filter;
         import org.bdHibernate.bd.ManufacturerEntity;
         import org.bdHibernate.bd.MaterialEntity;
         import org.bdHibernate.bd.ToolEntity;
@@ -29,6 +30,14 @@ public class materialControler {
     @RequestMapping(value = "/api/materials", method = RequestMethod.GET)
     public List<MaterialEntity>  showMaterial() {
         List<MaterialEntity> list =MaterialEntity.show();
+        return list;
+    }
+
+    @ResponseBody
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/api/materials/sort", method = RequestMethod.POST)
+    public List<MaterialEntity>  showSortMaterial(@RequestBody Filter filter) {
+        List<MaterialEntity> list =MaterialEntity.showFilter(filter);
         return list;
     }
     @ResponseBody

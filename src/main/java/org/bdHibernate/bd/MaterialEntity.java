@@ -41,6 +41,7 @@ public class MaterialEntity {
         //tools.remove(tool);
         tools.clear();
     }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_Material", nullable = false)
@@ -90,6 +91,54 @@ public class MaterialEntity {
         return new ArrayList<MaterialEntity>();
     }
 
+    public static List<MaterialEntity> showFilter(Filter filter) {
+        try (Session session = HibernateUtil.getSession()) {
+            session.beginTransaction();
+            List<MaterialEntity> manufacturerEntities = session.createQuery("from MaterialEntity").list();
+            List<MaterialEntity> manufacturerEntities1 = session.createQuery("from MaterialEntity").list();
+            for (MaterialEntity q : manufacturerEntities) {
+                q.getManufacturerByIdManufacturer().getName();
+                for (ToolEntity w : q.getTool()) {
+                    w.getName();
+                }
+            }
+            if (filter.Name != "")
+                for (MaterialEntity q : manufacturerEntities) {
+                    if (!filter.Name.equals(q.name)) {
+                        manufacturerEntities1.remove(q);
+                    }
+                }
+            if (filter.minCost != null)
+                for (MaterialEntity q : manufacturerEntities) {
+                    if (filter.minCost > q.cost) {
+                        manufacturerEntities1.remove(q);
+                    }
+                }
+            if (filter.maxCost != null)
+                for (MaterialEntity q : manufacturerEntities) {
+                    if (filter.maxCost < q.cost) {
+                        manufacturerEntities1.remove(q);
+                    }
+                }
+            if (filter.toolSort != "")
+                for (MaterialEntity q : manufacturerEntities) {
+                boolean b=false;
+                    for (ToolEntity w : q.getTool()) {
+                        if (filter.toolSort.equals(w.getName()))
+                            b=true;
+                    }
+                    if (!b)
+                        manufacturerEntities1.remove(q);
+                }
+            manufacturerEntities = manufacturerEntities1;
+            session.getTransaction().commit();
+            return manufacturerEntities;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<MaterialEntity>();
+    }
+
     public MaterialEntity add() {
         try (Session session = HibernateUtil.getSession()) {
             session.beginTransaction();
@@ -101,6 +150,7 @@ public class MaterialEntity {
         }
         return this;
     }
+
     public void update() {
         try (Session session = HibernateUtil.getSession()) {
             session.beginTransaction();
@@ -125,6 +175,7 @@ public class MaterialEntity {
             e.printStackTrace();
         }
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
